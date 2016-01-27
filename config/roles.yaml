@@ -5,10 +5,10 @@ roles:
       - {type: hosts}
 
   2_cpus:
-    provider:
-      type: virtualbox
-      customize:
-        - [modifyvm, !ruby/sym id, '--cpus', 2]
+    providers:
+      - type: virtualbox
+        customize:
+          - [modifyvm, !ruby/sym id, '--cpus', 2]
 
   auto_net:
     private_networks:
