@@ -24,6 +24,7 @@ node 'stash-server' {
   }
 
   class { 'stash':
+    version   => '3.11.6',
     javahome  => '/etc/alternatives/java_sdk',
     #dev.mode grants a 24-hour license for testing
     java_opts => '-Datlassian.dev.mode=true',

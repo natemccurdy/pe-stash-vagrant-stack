@@ -70,9 +70,7 @@ roles:
       - type: shell
         inline: 'service iptables stop; chkconfig iptables off;'
       - type: shell
-        inline: '/usr/bin/yum install telnet -y'
-      - type: shell
-        inline: '/usr/bin/yum install tree -y'
+        inline: '/usr/bin/yum install git tree telnet -y'
 
   centos7:
     provisioners:
