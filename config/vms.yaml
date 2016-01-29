@@ -6,5 +6,5 @@ vms:
 
   - name: "stash-server"
     box:  "puppetlabs/centos-7.2-64-nocm"
-    roles: [ "posix_agent", "puppet_agent", "centos7", "1gb-memory", "2_cpus" ]
+    roles: [ "posix_agent", "puppet_agent", "centos7", "2gb-memory", "2_cpus" ]
 
