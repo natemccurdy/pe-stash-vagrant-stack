@@ -26,11 +26,11 @@ roles:
   stash:
     provisioners:
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppet-stash --version 1.3.0"
+        inline: "/opt/puppetlabs/bin/puppet module install puppet-stash"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java --version 1.4.3"
+        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-postgresql --version 4.6.1"
+        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-postgresql"
       - type: shell
         inline: "rm -f /etc/puppetlabs/code/environments/production/manifests/site.pp; cp /vagrant/puppet_code/site.pp /etc/puppetlabs/code/environments/production/manifests/site.pp"
 
