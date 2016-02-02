@@ -36,6 +36,17 @@ node 'stash-server' {
   Postgresql::Server::Db['stash'] ->
   Class['stash']
 
+  # Add the Puppet CA as a trusted certificate authority because
+  # the webhook add-on must use a trusted connection.
+  java_ks { 'tomcat:cacerts':
+    ensure       => latest,
+    certificate  => "${::settings::certdir}/ca.pem",
+    target       => '/etc/alternatives/java_sdk/jre/lib/security/cacerts',
+    password     => 'changeit',
+    trustcacerts => true,
+    require      => Class['java']
+  }
+
 }
 
 node 'puppet-master'{

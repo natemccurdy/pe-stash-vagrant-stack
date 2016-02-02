@@ -32,6 +32,8 @@ roles:
       - type: shell
         inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-postgresql"
       - type: shell
+        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java_ks"
+      - type: shell
         inline: "rm -f /etc/puppetlabs/code/environments/production/manifests/site.pp; cp /vagrant/puppet_code/site.pp /etc/puppetlabs/code/environments/production/manifests/site.pp"
 
   puppet_agent:
