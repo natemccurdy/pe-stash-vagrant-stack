@@ -126,11 +126,11 @@ class profile::code_manager {
   if !empty($rbac_token_file_contents) {
     $rbac_token = parsejson($rbac_token_file_contents)['token']
 
-    file { '/vagrant/code_manager_rbac_token':
+    file { '/vagrant/code_manager_rbac_token.txt':
       ensure  => file,
       owner   => 'vagrant',
       group   => 'vagrant',
-      content => $rbac_token,
+      content => "${rbac_token}\n",
     }
 
   }
