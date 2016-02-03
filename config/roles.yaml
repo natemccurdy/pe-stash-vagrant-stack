@@ -23,7 +23,18 @@ roles:
       - type: pe_bootstrap
         role: :master
 
-  stash:
+  setup_control_repo:
+    provisioners:
+      - type: shell
+        inline: "yes | cp /vagrant/environment.conf /etc/puppetlabs/code/environments/production/environment.conf"
+      - type: shell
+        inline: "yes | cp -r /vagrant/manifests /etc/puppetlabs/code/environments/production/"
+      - type: shell
+        inline: "yes | cp -r /vagrant/site /etc/puppetlabs/code/environments/production/"
+      - type: shell
+        inline: "yes | cp -vr /vagrant/scripts /etc/puppetlabs/code/environments/production/"
+
+  get_modules:
     provisioners:
       - type: shell
         inline: "/opt/puppetlabs/bin/puppet module install puppet-stash"
@@ -34,7 +45,9 @@ roles:
       - type: shell
         inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java_ks"
       - type: shell
-        inline: "rm -f /etc/puppetlabs/code/environments/production/manifests/site.pp; cp /vagrant/puppet_code/site.pp /etc/puppetlabs/code/environments/production/manifests/site.pp"
+        inline: "/opt/puppetlabs/bin/puppet module install abrader-gms"
+      - type: shell
+        inline: "/opt/puppetlabs/bin/puppet module install pltraining-rbac"
 
   puppet_agent:
     provisioners:
