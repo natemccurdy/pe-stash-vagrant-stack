@@ -32,7 +32,7 @@ roles:
       - type: shell
         inline: "yes | cp -r /vagrant/site /etc/puppetlabs/code/environments/production/"
       - type: shell
-        inline: "yes | cp -vr /vagrant/scripts /etc/puppetlabs/code/environments/production/"
+        inline: "yes | cp -r /vagrant/scripts /etc/puppetlabs/code/environments/production/"
 
   get_modules:
     provisioners:
