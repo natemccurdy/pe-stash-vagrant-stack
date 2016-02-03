@@ -120,26 +120,18 @@ class profile::code_manager {
   #  provider     => 'stash',
   #}
 
-  # This git_webhook resource only works with the External Hooks plugin for Stash, but
-  # we're now using the Bitbucket Server Web Post Hooks plugin. Hence the commented out section.
-  #
-  # https://marketplace.atlassian.com/plugins/com.ngs.stash.externalhooks.external-hooks/server/overview
-  # https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-web-post-receive-hooks-plugin/server/overview
-  #
-  #if !empty($rbac_token_file_contents) {
-  #  $rbac_token = parsejson($rbac_token_file_contents)['token']
+  # Create a file on the puppet master with the contents of the RBAC token.
+  # THIS SHOULD NOT BE DONE IN PRODUCTION, AND IS ONLY HERE TO MAKE THE VAGRANT
+  # ENVIRONMENT EASY TO USE.
+  if !empty($rbac_token_file_contents) {
+    $rbac_token = parsejson($rbac_token_file_contents)['token']
 
-  #  git_webhook { "code_manager_post_receive_webhook-${::fqdn}" :
-  #    ensure          => present,
-  #    provider        => 'stash',
-  #    username        => hiera('stash_r10k_username'),
-  #    password        => hiera('stash_r10k_password'),
-  #    project_name    => 'PUPP',
-  #    repo_name       => 'control-repo',
-  #    server_url      => hiera('gms_server_url'),
-  #    hook_exe        => 'stash_deploy_code-manager.sh',
-  #    hook_exe_params => "-m ${::fqdn} \n-t ${rbac_token}",
-  #  }
+    file { '/vagrant/code_manager_rbac_token':
+      ensure  => file,
+      owner   => 'vagrant',
+      group   => 'vagrant',
+      content => $rbac_token,
+    }
 
-  #}
+  }
 }

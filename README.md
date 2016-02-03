@@ -37,7 +37,8 @@ The final steps to setup the post receive hook are manual.
   * Click the pencil icon next to `Post-Receive WebHooks`
   * The URL to drop in should be in the format of:
     * `https://puppet-master:8170/code-manager/v1/webhook?type=stash&token=<TOKEN>`
-    * Replace \<TOKEN\> with the RBAC Token that was generated before hand.
+    * Replace \<TOKEN\> with the RBAC Token that was generated automatically for you.
+      * The token value can be found on the puppet master in a file at: `/vagrant/code_manager_rbac_token`
 
 
 ## Other Notes
