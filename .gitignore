@@ -7,3 +7,4 @@ Gemfile.lock
 bin
 src/puppetlabs
 code_manager_rbac_token.txt
+atlassian-bitbucket*
