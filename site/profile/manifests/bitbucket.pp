@@ -37,7 +37,6 @@ class profile::bitbucket {
 
   service { 'atlbitbucket':
     ensure     => running,
-    enable     => true,
     hasstatus  => true,
     hasrestart => true,
     require    => Exec['Run Bitbucket Server Installer'],
