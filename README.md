@@ -19,10 +19,10 @@ If you are attempting to replicate this setup, here are the steps that you would
   * https://docs.puppetlabs.com/pe/latest/code_mgr_webhook.html#generate-an-authentication-token
   * I've done this automatically with the puppet code in: site/profile/manifests/code_manager.pp
 1. Add the Puppet Master's CA cert to the Java keystore on the Stash server:
-  * Determine the $JAVA_HOME value used for Stash by looking in `opt/stash/atlassian-stash-3.11.6/bin/setenv.sh`. In my case, it's
-    `/etc/alternatives/java_sdk`.
+  * Determine the $JAVA_HOME value used for Stash by looking in `opt/stash/atlassian-stash-<version>/bin/setenv.sh`. You can also look at the `System Information` page of the Web GUI. In my case, it's
+    `/opt/atlassian/bitbucket/4.3.2/jre`.
   * Run the following command and replace `$JAVA_HOME` with the path just determined:
-    * `$JAVA_HOME/bin/keytool -import -alias tomcat -file /etc/puppetlabs/puppet/ssl/certs/ca.pem -keystore $JAVA_HOME/jre/lib/security/cacerts`
+    * `$JAVA_HOME/bin/keytool -import -alias tomcat -file /etc/puppetlabs/puppet/ssl/certs/ca.pem -keystore $JAVA_HOME/lib/security/cacerts`
     * When asked for a password, use `changeit`.
   * I've done all this automatically with the Puppet code at: site/profile/manifests/stash_server/pp:34
 
@@ -41,6 +41,15 @@ The final steps to setup the post receive hook are manual.
       * The token value can be found on the puppet master in a file at: `/vagrant/code_manager_rbac_token.txt`
       * or in the Vagrant directory as: `code_manager_rbac_token.txt`
 
+
+## Troubleshooting
+
+#### Bitbucket
+
+* https://confluence.atlassian.com/display/KB/Connecting+to+SSL+services
+* /var/atlassian/application-data/bitbucket/log/atlassian-bitbucket.log
+
+#### Puppetserver
 
 ## Other Notes
 
