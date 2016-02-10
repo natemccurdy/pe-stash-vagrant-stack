@@ -118,16 +118,16 @@ class profile::code_manager {
   # The creation of a deploy key associated with a project can be automated
   # with this resource; however, in the Vagrant environment, the stash server would need
   # to be up and configured with a Project and r10k username/password before this will work.
-  #git_deploy_key { "add_deploy_key_to_PUPP-${::fqdn}":
-  #  ensure       => present,
-  #  name         => $::fqdn,
-  #  username     => hiera('stash_r10k_username'),
-  #  password     => hiera('stash_r10k_password'),
-  #  project_name => 'PUPP',
-  #  path         => "${code_manager_ssh_key_file}.pub",
-  #  server_url   => hiera('gms_server_url'),
-  #  provider     => 'stash',
-  #}
+  git_deploy_key { "add_deploy_key_to_PUPP-${::fqdn}":
+    ensure       => present,
+    name         => $::fqdn,
+    username     => 'r10k',
+    password     => 'puppet',
+    project_name => 'PUPP',
+    path         => "${code_manager_ssh_key_file}.pub",
+    server_url   => 'http://stash-server:7990',
+    provider     => 'stash',
+  }
 
   # Create a file on the puppet master with the contents of the RBAC token.
   # THIS SHOULD NOT BE DONE IN PRODUCTION, AND IS ONLY HERE TO MAKE THE VAGRANT
