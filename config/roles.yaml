@@ -19,6 +19,11 @@ roles:
     provisioners:
       - type: pe_bootstrap
         role: :master
+        answers_extra:
+          - "q_puppetmaster_r10k_remote='ssh://git@stash-server:7999/pupp/control-repo.git'"
+          - "q_puppetmaster_r10k_private_key=/opt/puppetlabs/puppetserver/ssh/id-control_repo.rsa"
+          - "q_puppetmaster_code_manager_auto_configure=y"
+          - "q_puppetmaster_file_sync_service_enabled=y"
 
   setup_control_repo:
     provisioners:
@@ -34,17 +39,17 @@ roles:
   get_modules:
     provisioners:
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-inifile"
+        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-inifile --modulepath /etc/puppetlabs/code/modules"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java_ks"
+        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java_ks --modulepath /etc/puppetlabs/code/modules"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install abrader-gms"
+        inline: "/opt/puppetlabs/bin/puppet module install abrader-gms --modulepath /etc/puppetlabs/code/modules"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install pltraining-rbac"
+        inline: "/opt/puppetlabs/bin/puppet module install pltraining-rbac --modulepath /etc/puppetlabs/code/modules"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install stahnma-epel"
+        inline: "/opt/puppetlabs/bin/puppet module install stahnma-epel --modulepath /etc/puppetlabs/code/modules"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppet-archive"
+        inline: "/opt/puppetlabs/bin/puppet module install puppet-archive --modulepath /etc/puppetlabs/code/modules"
 
   puppet_agent:
     provisioners:
