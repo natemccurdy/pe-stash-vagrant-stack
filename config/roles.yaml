@@ -50,6 +50,8 @@ roles:
         inline: "/opt/puppetlabs/bin/puppet module install stahnma-epel --modulepath /etc/puppetlabs/code/modules"
       - type: shell
         inline: "/opt/puppetlabs/bin/puppet module install puppet-archive --modulepath /etc/puppetlabs/code/modules"
+      - type: shell
+        inline: "/bin/chown -R pe-puppet:pe-puppet /etc/puppetlabs/code/modules"
 
   puppet_agent:
     provisioners:
