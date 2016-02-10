@@ -18,6 +18,7 @@ vms:
       - posix_agent
       - puppet_agent
       - centos7
-      - 2gb-memory
+      - hosts
+      - 4gb-memory
       - 2_cpus
 
