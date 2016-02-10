@@ -16,7 +16,7 @@ vms:
       - 4gb-memory
       - base
 
-  - name: "stash-server"
+  - name: "bitbucket"
     box:  "puppetlabs/centos-7.2-64-nocm"
     roles:
       - puppet_agent

@@ -19,10 +19,10 @@ If you are attempting to replicate this setup, here are the steps that you would
   * https://docs.puppetlabs.com/pe/latest/code_mgr_webhook.html#generate-an-authentication-token
   * I've done this automatically with the puppet code in:
     `site/profile/manifests/code_manager.pp`
-1. Add the Puppet Master's CA cert to the Java keystore on the Stash server:
-  * Determine the $JAVA_HOME value used for Stash by looking in:
+1. Add the Puppet Master's CA cert to the Java keystore on the BitBucket server:
+  * Determine the $JAVA_HOME value used for BitBucket by looking in:
 
-    `/opt/stash/atlassian-stash-<version>/bin/setenv.sh`.
+    `/opt/atlassian/bitbucket/<version>/bin/setenv.sh`.
     * You can also look at the `System Information` page of the Web GUI. In my case, it's
 
       `/opt/atlassian/bitbucket/4.3.2/jre`.

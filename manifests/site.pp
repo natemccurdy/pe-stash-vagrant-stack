@@ -5,7 +5,7 @@
 File { backup => false }
 
 
-node 'stash-server' {
+node 'bitbucket' {
   include ::profile::bitbucket
 }
 
