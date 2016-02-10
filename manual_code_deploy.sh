@@ -6,20 +6,18 @@ sudo -u pe-puppet bash -c 'r10k deploy environment -c /opt/puppetlabs/server/dat
 echo "==> Delete the code dir so file-sync can do its thing"
 sudo rm -rf /etc/puppetlabs/code/*
 
-# Determine paths to certs.
-certname="$(puppet agent --configprint certname)"
-certdir="$(puppet agent --configprint certdir)"
-
 # Set variables for the curl.
-cert="${certdir}/${certname}.pem"
-key="$(puppet agent --configprint privatekeydir)/${certname}.pem"
-cacert="${certdir}/ca.pem"
+CERT="$(puppet agent --configprint hostcert)"
+KEY="$(puppet agent --configprint hostprivkey)"
+CACERT="$(puppet agent --configprint localcacert)"
 
 echo "==> Hitting the file-sync commit endpoint at https://$(hostname -f):8140/file-sync/v1/commit"
-/opt/puppetlabs/puppet/bin/curl -v -s --request POST --header "Content-Type: application/json" --data '{"commit-all": true}' \
-                                --cert "$cert" \
-                                --key "$key" \
-                                --cacert "$cacert" \
+/opt/puppetlabs/puppet/bin/curl -v -s --request POST \
+                                --header "Content-Type: application/json" \
+                                --data '{"commit-all": true}' \
+                                --cert "$CERT" \
+                                --key "$KEY" \
+                                --cacert "$CACERT" \
                                 "https://$(hostname -f):8140/file-sync/v1/commit" && echo
 
 
