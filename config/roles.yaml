@@ -19,7 +19,7 @@ roles:
     provisioners:
       - type: pe_bootstrap
         role: :master
-        answers_extra:
+        answer_extras:
           - "q_puppetmaster_r10k_remote='ssh://git@stash-server:7999/pupp/control-repo.git'"
           - "q_puppetmaster_r10k_private_key=/opt/puppetlabs/puppetserver/ssh/id-control_repo.rsa"
           - "q_puppetmaster_code_manager_auto_configure=y"
