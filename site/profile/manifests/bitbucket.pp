@@ -35,15 +35,25 @@ class profile::bitbucket {
     target => '/opt/atlassian/bitbucket/4.3.2/jre/bin/keytool',
   }
 
+  service { 'atlbitbucket':
+    ensure     => running,
+    enable     => true,
+    hasstatus  => true,
+    hasrestart => true,
+    require    => Exec['Run Bitbucket Server Installer'],
+  }
+
   # Add the Puppet CA as a trusted certificate authority because
   # the webhook add-on must use a trusted connection.
-  java_ks { 'tomcat:cacerts':
+  java_ks { 'puppet-server':
     ensure       => latest,
     certificate  => "${::settings::certdir}/ca.pem",
     target       => '/opt/atlassian/bitbucket/4.3.2/jre/lib/security/cacerts',
     password     => 'changeit',
     trustcacerts => true,
     require      => [ Exec['Run Bitbucket Server Installer'], File['/usr/bin/keytool'] ],
+    notify       => Service['atlbitbucket'],
   }
+
 
 }
