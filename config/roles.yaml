@@ -48,6 +48,10 @@ roles:
         inline: "/opt/puppetlabs/bin/puppet module install abrader-gms"
       - type: shell
         inline: "/opt/puppetlabs/bin/puppet module install pltraining-rbac"
+      - type: shell
+        inline: "/opt/puppetlabs/bin/puppet module install stahnma-epel"
+      - type: shell
+        inline: "/opt/puppetlabs/bin/puppet module install puppet-archive"
 
   puppet_agent:
     provisioners:
@@ -85,7 +89,7 @@ roles:
       - type: shell
         inline: 'service iptables stop; chkconfig iptables off;'
       - type: shell
-        inline: '/usr/bin/yum install git tree telnet git -y'
+        inline: '/usr/bin/yum install telnet vim tree git -y'
 
   centos7:
     provisioners:
