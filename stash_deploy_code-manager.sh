@@ -3,7 +3,8 @@
 # This script is meant to be called by the external-hooks add-on for Stash (Bitbucket):
 #     https://marketplace.atlassian.com/plugins/com.ngs.stash.externalhooks.external-hooks/server/overview
 #
-# Make sure to pass the values for -p and -t on separate lines. e.g:
+# Make sure to pass the values for -k -p and -t on separate lines. e.g:
+#   -k (optional)
 #   -p puppet.company.com
 #   -t 1234567890abcdef...
 #
@@ -11,19 +12,24 @@
 logger "$0 triggered to deploy ${STASH_REPO_NAME} by ${STASH_USER_NAME}"
 
 usage() {
-  echo
-  echo "${0} [OPTIONS]"
-  echo "  -p, --puppet-host [FQDN]"
-  echo "      The target FQDN of the Puppet Master to post to"
-  echo "        example: puppet01.company.com"
-  echo "  -t, --token"
-  echo "      The RBAC token of a user authorized to deploy environments"
-  echo
+  cat <<USAGE
+
+${0} [OPTIONS]
+  -s, (optional) Including this will enable SSL verification.
+  -p, --puppet-host [FQDN]
+      The target FQDN of the Puppet Master to post to.
+        example: puppet01.company.com
+  -t, --token
+      The RBAC token of a user authorized to deploy environments.
+USAGE
+
   exit 1
 }
 
-while getopts ":p:t:" opt; do
+while getopts ":sp:t:" opt; do
   case "${opt}" in
+    k) ssl_auth=''
+      ;;
     p) master="${OPTARG##* }"
       ;;
     t) token="${OPTARG##* }"
@@ -41,15 +47,16 @@ fi
 
 # The external-hooks script passes the following on stdin:
 #
-# old_hash new_hash ref/ref/ref
+# "old_hash new_hash ref/ref/ref"
 #
 # for example:
-# 0000000000000000000000000000000000000000 ad91e3697d0711985e06d5bbbf6a7c5dc3b657f7 refs/heads/production
+# "00000000000000000000000 ad91e3697d0711985e06d5b refs/heads/production"
 #
-# All we care about is refs/heads/<branch_name> to that we can deploy a specific environment
-#
-while read -r from_ref to_ref ref_name; do
-  branch=${ref_name##*/}
+# All we care about is the branch name at the very end.
+# We are using BASH's parameter expansion to strip all text to the left
+# of, and including, the last '/'.
+while read -r stdin; do
+  branch=${stdin##*/}
 done
 
 if [[ -z $branch ]]; then
@@ -57,11 +64,12 @@ if [[ -z $branch ]]; then
   exit 1
 fi
 
-deploy_url="https://${master}:8170/code-manager/v1/deploys"
-post_data="'{ \"environments\": [\"${branch}\"], \"wait\": true }'"
-
 logger "Deploying ${STASH_REPO_NAME}:${branch} to ${master}"
 
-# eval is used here because there's a bunch of quotes and special characters being used in this curl command.
-eval "/bin/curl -k -X POST -H 'Content-Type: application/json' -H 'X-Authentication: ${token}' -d $post_data $deploy_url"
+# CURL the code-manager deploy API endpoint.
+/bin/curl ${ssl_auth:--k} -s --request POST \
+          --header "Content-Type: application/json" \
+          --header "X-Authentication: ${token}" \
+          --data   "{ \"environments\": [\"${branch}\"], \"wait\": true }"
+          "https://${master}:8170/code-manager/v1/deploys"
 
