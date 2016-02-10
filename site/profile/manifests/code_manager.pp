@@ -11,10 +11,19 @@ class profile::code_manager {
   $token_directory       = '/etc/puppetlabs/puppetserver/.puppetlabs'
   $token_filename        = "${token_directory}/${code_manager_service_user}_token"
 
-  $code_manager_ssh_key_file = '/etc/puppetlabs/puppetserver/code_manager.key'
+  $code_manager_ssh_key_file = '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa'
+
+  file { '/etc/puppetlabs/puppetserver/ssh':
+    ensure => directory,
+    owner  => 'pe-puppet',
+    group  => 'pe-puppet',
+    mode   => '0755',
+  }
+
   exec { 'create code manager ssh key' :
-    command => "/usr/bin/ssh-keygen -t rsa -b 2048 -C 'code_manager' -f ${code_manager_ssh_key_file} -q -N ''",
+    command => "/usr/bin/ssh-keygen -t rsa -b 4096 -C 'code_manager' -f ${code_manager_ssh_key_file} -q -N ''",
     creates => $code_manager_ssh_key_file,
+    require => File['/etc/puppetlabs/puppetserver/ssh'],
   }
 
   file { $code_manager_ssh_key_file :

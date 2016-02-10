@@ -1,5 +1,10 @@
 class profile::master {
 
+  service { 'puppet':
+    ensure => stopped,
+    enable => false,
+  }
+
   #Lay down update-classes.sh for use in r10k postrun_command
   #This is configured via the pe_r10k::postrun key in hiera
   file { '/usr/local/bin/update-classes.sh' :

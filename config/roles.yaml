@@ -37,12 +37,6 @@ roles:
   get_modules:
     provisioners:
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppet-stash"
-      - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java"
-      - type: shell
-        inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-postgresql"
-      - type: shell
         inline: "/opt/puppetlabs/bin/puppet module install puppetlabs-java_ks"
       - type: shell
         inline: "/opt/puppetlabs/bin/puppet module install abrader-gms"
