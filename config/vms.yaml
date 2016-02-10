@@ -1,4 +1,7 @@
 ---
+ssh:
+  insert_key: false
+
 vms:
   - name: "puppet-master"
     box:  "puppetlabs/centos-7.2-64-nocm"
@@ -7,18 +10,20 @@ vms:
       - get_modules
       - puppet_master
       - customize_pe_via_hiera
-      - centos7
-      - hosts
+      - el-tools
+      - el-stop-firewall
+      - el-fix-path
       - 4gb-memory
-      - auto_net
+      - base
 
   - name: "stash-server"
     box:  "puppetlabs/centos-7.2-64-nocm"
     roles:
-      - posix_agent
       - puppet_agent
-      - centos7
-      - hosts
-      - 4gb-memory
+      - el-tools
+      - el-stop-firewall
+      - el-fix-path
+      - 2gb-memory
       - 2_cpus
+      - base
 
