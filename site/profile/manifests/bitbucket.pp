@@ -25,9 +25,10 @@ class profile::bitbucket {
 
   # Setup Bitbucket
   exec { 'Run Bitbucket Server Installer':
-    command => "/vagrant/${bitbucket_installer} -q",
-    unless  => '/bin/netstat -tln | grep -q ":7990"',
-    require => File["/vagrant/${bitbucket_installer}"],
+    command   => "/vagrant/${bitbucket_installer} -q",
+    unless    => '/bin/netstat -tln | grep -q ":7990"',
+    logoutput => true,
+    require   => File["/vagrant/${bitbucket_installer}"],
   }
 
   file { '/usr/bin/keytool':
