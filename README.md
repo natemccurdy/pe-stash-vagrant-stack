@@ -1,11 +1,18 @@
 # PE Bitbuket Server Vagrant Stack
 
-The `bitbucket` VM is setup to install BitBucket Server. You will need to register an account at my.atlassian.com and create an evaluation license for Bitbucket Server. You will then use that license in the manual setup section of Bitbucket Server. The goal of the stack is to facilitate testing and understanding of how to use code-manager with Bitbucket Server.
+The `bitbucket` VM is setup to install BitBucket Server. BitBucket Server is setup using a developer-mode which means it will only allow `git push`'s to it for 24 hours. You can create an account on https://my.atlassian.com and create a free evaluation license that will be good for 30 days. The licenses are very easy to make.
+
+The goal of the stack is to facilitate testing and understanding of how to use code-manager with Bitbucket Server.
 
 http://blogs.atlassian.com/2014/11/automating-stash-deployments/
 
+## Bitbucket Access
+
 You can reach the BitBucket Server UI on port **7990**
 
+Username is: **admin**
+
+Password is: **admin**
 
 ## What this stack does for you
 
@@ -38,9 +45,6 @@ If you are attempting to replicate this setup, here are the steps that you would
 ## Manual Setup of Bitbucket
 
 After running vagrant up, there's a few things that need to be setup manually...
-
-1. Finish the initialization of Bitbucket Server by logging into the web console on port 7990, and following the prompts.
-  * This will include creating an Atlassian account and getting an evaluation license.
 
 1. Install the following Bitbucket Server plugin by logging into the web GUI of the Stash server and going to `Find new add-ons`.
   * https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-web-post-receive-hooks-plugin/server/overview

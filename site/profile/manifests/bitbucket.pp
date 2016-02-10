@@ -55,5 +55,12 @@ class profile::bitbucket {
     notify       => Service['atlbitbucket'],
   }
 
+  file_line { 'bitbucket dev mode':
+    ensure => present,
+    path   => '/opt/atlassian/bitbucket/4.3.2/bin/setenv.sh',
+    line   => 'export JAVA_OPTS="-Xms${JVM_MINIMUM_MEMORY} -Xmx${JVM_MAXIMUM_MEMORY} ${JAVA_OPTS} ${JVM_REQUIRED_ARGS} ${JVM_SUPPORT_RECOMMENDED_ARGS} ${BITBUCKET_HOME_MINUSD} -Datlassian.dev.mode=true"', #lint:ignore:single_quote_string_with_variables
+    match  => '^export JAVA_OPTS=',
+    notify => Service['atlbitbucket'],
+  }
 
 }
