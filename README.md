@@ -86,6 +86,12 @@ Most likely, the problem you have will be with SSL validation of code-manager. T
 
 Monitor the puppetserver log to ensure that file-sync hasn't crashed puppetserver: `/var/log/puppetlabs/puppetserver/puppetserver.log`
 
+### TODO
+
+Automate the initial setup of Bitbucket Server (users, project, and repo creation). Probably with a combination of installer properties and API curls:
+* https://confluence.atlassian.com/bitbucketserver/automated-setup-for-bitbucket-server-776640098.html
+* https://developer.atlassian.com/static/rest/bitbucket-server/4.3.1/bitbucket-rest.html
+
 ## Other Notes
 
 This is based on the puppet-debugging-kit.
