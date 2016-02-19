@@ -83,4 +83,15 @@ class profile::bitbucket {
     require  => [ File["${bitbucket_home}/external-hooks"], Exec['Run Bitbucket Server Installer'] ],
   }
 
+  # Add ruby and the puppet-lint gem for the pre-receive hooks.
+  package { 'ruby':
+    ensure => present,
+  }
+
+  package { 'puppet-lint':
+    ensure   => present,
+    provider => 'gem',
+    require  => Package['ruby'],
+  }
+
 }
