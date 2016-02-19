@@ -1,19 +1,11 @@
 ---
 roles:
-  hosts:
-    provisioners:
-      - {type: hosts}
 
   2_cpus:
     providers:
       - type: virtualbox
         customize:
           - [modifyvm, !ruby/sym id, '--cpus', 2]
-
-  auto_net:
-    private_networks:
-      - ip: '0.0.0.0'
-        auto_network: true
 
   puppet_master:
     provisioners:
@@ -60,30 +52,6 @@ roles:
       - type: pe_agent
         master_vm: 'puppet-master'
 
-  windows_base:
-    communicator: "winrm"
-    forwarded_ports:
-      - { guest: 5985, host: 5986 }
-      - { guest: 3389, host: 3390 }
-
-  windows_agent_372:
-    guest: windows
-    private_networks:
-      - {ip: '0.0.0.0', auto_network: true}
-    provisioners:
-      - type: pe_bootstrap
-        version: '3.7.2'
-        master: 'master372-centos'
-
-  posix_agent:
-    private_networks:
-      - {ip: '0.0.0.0', auto_network: true}
-
-  no_pe:
-    provisioners:
-      - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
-      - {type: hosts}
-
   el-tools:
     provisioners:
       - type: shell
@@ -93,6 +61,4 @@ roles:
     provisioners:
       - type: shell
         inline: 'mkdir -p /var/lib/hiera; cp /vagrant/config/hierafiles/defaults.yaml /var/lib/hiera/defaults.yaml'
-
-
 
