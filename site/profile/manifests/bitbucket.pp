@@ -8,6 +8,7 @@ class profile::bitbucket {
   include ::epel
 
   $bitbucket_installer = 'atlassian-bitbucket-4.3.2-x64.bin'
+  $bitbucket_home      = '/var/atlassian/application-data/bitbucket'
 
   # Get BitBucket
   include ::archive
@@ -61,6 +62,25 @@ class profile::bitbucket {
     line   => 'export JAVA_OPTS="-Xms${JVM_MINIMUM_MEMORY} -Xmx${JVM_MAXIMUM_MEMORY} ${JAVA_OPTS} ${JVM_REQUIRED_ARGS} ${JVM_SUPPORT_RECOMMENDED_ARGS} ${BITBUCKET_HOME_MINUSD} -Datlassian.dev.mode=true"', #lint:ignore:single_quote_string_with_variables
     match  => '^export JAVA_OPTS=',
     notify => Service['atlbitbucket'],
+  }
+
+  file { "${bitbucket_home}/external-hooks":
+    ensure  => 'directory',
+    owner   => 'atlbitbucket',
+    group   => 'atlbitbucket',
+    mode    => '0775',
+    require => Exec['Run Bitbucket Server Installer'],
+  }
+
+  # The commit here is where I've made some BASH fixes to the scripts.
+  vcsrepo { "${bitbucket_home}/external-hooks/puppet-git-hooks":
+    ensure   => present,
+    provider => 'git',
+    source   => 'https://github.com/drwahl/puppet-git-hooks.git',
+    revision => '5bd7ddeda8f74a00bdb10aad674997d638f3b9b6',
+    owner    => 'atlbitbucket',
+    group    => 'atlbitbucket',
+    require  => [ File["${bitbucket_home}/external-hooks"], Exec['Run Bitbucket Server Installer'] ],
   }
 
 }
