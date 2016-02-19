@@ -27,7 +27,7 @@ class profile::bitbucket {
   # Setup Bitbucket
   exec { 'Run Bitbucket Server Installer':
     command   => "/vagrant/${bitbucket_installer} -q",
-    unless    => '/bin/netstat -tln | grep -q ":7990"',
+    creates   => '/opt/atlassian/bitbucket/4.3.2/bin/setenv.sh',
     logoutput => true,
     require   => File["/vagrant/${bitbucket_installer}"],
   }
