@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "==> Running r10k manually as pe-puppet to fetch new code"
-sudo -u pe-puppet bash -c 'r10k deploy environment -c /opt/puppetlabs/server/data/code-manager/r10k.yaml -p -v debug'
+sudo -u pe-puppet bash -c '/opt/puppetlabs/puppet/bin/r10k deploy environment -c /opt/puppetlabs/server/data/code-manager/r10k.yaml -p -v debug'
 
 echo "==> Delete the code dir so file-sync can do its thing"
 sudo rm -rf /etc/puppetlabs/code/*
