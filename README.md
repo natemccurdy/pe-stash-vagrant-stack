@@ -1,12 +1,19 @@
 # PE Bitbuket Server Vagrant Stack
 
-The `bitbucket` VM is setup to install BitBucket Server. BitBucket Server is setup using a developer-mode which means it will only allow `git push`'s to it for 24 hours. You can create an account on https://my.atlassian.com and create a free evaluation license that will be good for 30 days. The licenses are very easy to make.
+This Vagrant stack includes 2 virtual machines:
 
-The goal of the stack is to facilitate testing and understanding of how to use code-manager with Bitbucket Server.
+| VM Name       | Description |
+|---------------|-------------|
+| puppet-master | A Monolithic install of PE 2015.3.2 on CentOS 7 |
+| bitbucket     | BitBucket Server 4.3.2 on CentOS 7              |
+
+The `bitbucket` VM is setup to install BitBucket Server using the all-in-one `.bin` installer from Atlassian. BitBucket Server is setup using a developer-mode which means it will only allow `git push`'s to it for 24 hours. You can create an account on https://my.atlassian.com and create a free evaluation license that will be good for 30 days. The licenses are very easy to make.
+
+The goal of the stack is to facilitate testing and understanding of how to use code-manager with BitBucket Server.
 
 http://blogs.atlassian.com/2014/11/automating-stash-deployments/
 
-## Bitbucket Access
+## BitBucket Access
 
 You can reach the BitBucket Server UI on port **7990**
 
@@ -42,11 +49,11 @@ If you are attempting to replicate this setup, here are the steps that you would
 
   * There's Puppet code to automate the Java KS cert at: [site/profile/manifests/bitbucket.pp:48-56](site/profile/manifests/bitbucket.pp#L48-56)
 
-## Manual Setup of Bitbucket
+## Manual Setup of BitBucket
 
 After running vagrant up, there's a few things that need to be setup manually...
 
-1. Install the following Bitbucket Server plugin by logging into the web GUI of the Stash server and going to `Find new add-ons`.
+1. Install the following BitBucket Server plugin by logging into the web GUI of the Stash server and going to `Find new add-ons`.
   * https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-web-post-receive-hooks-plugin/server/overview
 
 1. Make a `Project` and a blank `repository` inside that project
@@ -76,14 +83,14 @@ After running vagrant up, there's a few things that need to be setup manually...
 
 ## Troubleshooting
 
-### Bitbucket
+### BitBucket
 
-The main Bitbucket log that you'll want to monitor to troubleshoot the webhook is:
+The main BitBucket log that you'll want to monitor to troubleshoot the webhook is:
   ```
   /var/atlassian/application-data/bitbucket/log/atlassian-bitbucket.log
   ```
 
-Most likely, the problem you have will be with SSL validation of code-manager. This guide shows how to manually add the Master's CA to the Java keystore that Bitbucket uses.
+Most likely, the problem you have will be with SSL validation of code-manager. There's a `java_ks` resource in `site/profile/manifests/bitbucket.pp` that attempts to manage this. This guide shows how to manually add the Master's CA to the Java keystore that BitBucket uses.
   * https://confluence.atlassian.com/display/KB/Connecting+to+SSL+services
 
 ### Puppetserver
@@ -92,7 +99,7 @@ Monitor the puppetserver log to ensure that file-sync hasn't crashed puppetserve
 
 ### TODO
 
-Automate the initial setup of Bitbucket Server (users, project, and repo creation). Probably with a combination of installer properties and API curls:
+Automate the initial setup of BitBucket Server (users, project, and repo creation). Probably with a combination of installer properties and API curls:
 * https://confluence.atlassian.com/bitbucketserver/automated-setup-for-bitbucket-server-776640098.html
 * https://developer.atlassian.com/static/rest/bitbucket-server/4.3.1/bitbucket-rest.html
 
