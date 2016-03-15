@@ -47,7 +47,7 @@ class profile::bitbucket {
 
   # Add the Puppet CA as a trusted certificate authority because
   # the webhook add-on must use a trusted connection.
-  java_ks { 'puppet-server':
+  java_ks { $::settings::server :
     ensure       => latest,
     certificate  => "${::settings::certdir}/ca.pem",
     target       => "/opt/atlassian/bitbucket/${bitbucket_version}/jre/lib/security/cacerts",
