@@ -1,3 +1,5 @@
+**THIS PROJECT HAS MOVED TO [natemccurdy/pe-bitbucket-vagrant-stack](https://github.com/natemccurdy/pe-bitbucket-vagrant-stack)**
+
 # PE Bitbuket Server Vagrant Stack
 
 This Vagrant stack includes 2 virtual machines:
